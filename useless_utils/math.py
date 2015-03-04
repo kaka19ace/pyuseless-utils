@@ -18,17 +18,58 @@ import math
 
 from contextlib import contextmanager
 
+def _fibonacci_formula(i):
+    return int(((1 + math.sqrt(5)) / 2) ** i / math.sqrt(5) + 0.5)
+
 
 class FibonacciUtils(object):
+    """
+        s = \"\"\"
+        def fibonacci():
+            a, b = 0, 1
+            while True:
+                yield a + b
+                a, b = b, a + b
+
+        g = fibonacci()
+
+        i = 1
+        while i <= 10:
+            i += 1
+            next(g)
+            # print(v)
+        \"\"\"
+
+        s2 = \"\"\"
+        import math
+
+        i = 2
+        while i <= 11:
+            d = int(((1 + math.sqrt(5)) / 2) ** i / math.sqrt(5) + 0.5)
+            i += 1
+            # print(d)
+
+        \"\"\"
+
+        import timeit
+
+        t1 = timeit.timeit(stmt=s, number=10)
+
+        t2 = timeit.timeit(stmt=s2, number=10)
+
+        print("t1: ", t1)
+        print("t2: ", t2)
+
+        # t1:  0.0004139620004934841
+        # t2:  0.00016210499961744063
+
+        mathematics is always faster than yield
+    """
+    _FIBONACCI_FIRST_70_LIST = [_fibonacci_formula(i) for i in range(0, 71)]
+
     @staticmethod
     def fibonacci_calculator(n):
         """
-        if n == 0:
-            raise ValueError("")
-        if n == 1:
-            return 0
-
-
         :param n: integer, cacalute the nth value
 
         inspired from:
@@ -36,31 +77,36 @@ class FibonacciUtils(object):
 
         :return: the last result value
         """
-        if n == 0:
-            raise ValueError("")
-        if n == 1:
-            return 0
+        # if n in (0, 1):
+        #     return n
 
-        if n <= 71:
-            # when n is 72, the formula could not be used, because of the precision problems
-            return int(((1 + math.sqrt(5)) / 2) ** (n-1) / math.sqrt(5) + 0.5)
+        if n < 71:
+            return FibonacciUtils._FIBONACCI_FIRST_70_LIST[n]
 
-        # i must set to 3
-        i, g = 3, FibonacciGenartors.fibonacci()
+        starts = (
+            FibonacciUtils._FIBONACCI_FIRST_70_LIST[69],
+            FibonacciUtils._FIBONACCI_FIRST_70_LIST[70],
+        )
+
+        i, g = 71, FibonacciUtils.fibonacci(starts)
         while i < n:
             i += 1
             next(g)
         v = next(g)
-        g.close()
         return v
 
     @staticmethod
-    def fibonacci():
+    def fibonacci(starts=None):
         """
-        init with 0, 1
+        :param: starts is a tuple
+            default (0, 1)
         :return: generator function
         """
-        a, b = 0, 1
+        if starts is None:
+            a, b = 0, 1
+        else:
+            a, b = starts[0], starts[1]
+
         while True:
             yield a + b
             a, b = b, a + b
@@ -71,4 +117,4 @@ class FibonacciUtils(object):
         init with 0, 1
         :return: generator
         """
-        return FibonacciGenartors.fibonacci()
+        return FibonacciUtils.fibonacci()

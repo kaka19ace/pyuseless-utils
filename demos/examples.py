@@ -11,6 +11,10 @@
 from useless_utils import FibonacciUtils
 
 
-for i in range(1, 73):
+for i in range(0, 73):
     result = FibonacciUtils.fibonacci_calculator(i)
+
     print(result)
+
+
+
