@@ -36,7 +36,7 @@ setup(
     keywords='useless utils',
     author='kaka_ace',
     author_email='xiang.ace@gmail.com',
-    url='http://kaka-ace.com',
+    url='https://github.com/kaka19ace/useless-utils.git',
     license='http://opensource.org/licenses/MIT',
     #packages=find_packages(exclude=['ez_setup', 'examples', 'tests', "demos"]),
     packages=["useless_utils",],
