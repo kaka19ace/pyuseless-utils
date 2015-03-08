@@ -13,3 +13,8 @@ version = "0.0.1"
 from .math import (
     FibonacciUtils,
 )
+
+from .crypto import (
+    CryptoUtils,
+)
+

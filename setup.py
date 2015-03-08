@@ -20,7 +20,7 @@ requires = [
 
 
 kwargs = {}
-with open("README.rst", 'r', 'utf-8') as f:
+with open("README.md", 'r') as f:
     kwargs['long_description'] = f.read()
 
 
